@@ -1,0 +1,49 @@
+<div class="content">
+  <form>
+    <mat-form-field *ngIf="artistList.length">
+      <mat-label>Artist</mat-label>
+      <input
+        type="text"
+        placeholder="Pick one"
+        aria-label="Number"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option"
+          >{{ option }}</mat-option
+        >
+      </mat-autocomplete>
+    </mat-form-field>
+    <button
+      mat-icon-button
+      type="submit"
+      color="primary"
+      (click)="loadStreams()"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      aria-label="Example icon button with a vertical three dot icon"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </form>
+
+  <ng-container *ngIf="streams.length">
+    <p>
+      Total Streams: {{ streams.length }} - Total Streming Duration:
+      {{ getTotalStreamingDuration() }} hours
+    </p>
+    <table>
+      <tr *ngFor="let stream of streams">
+        <td>{{ stream.master_metadata_track_name }}</td>
+        <td>{{ formatDate(stream.ts) }}</td>
+      </tr>
+    </table>
+  </ng-container>
+</div>

@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+
+    mat-form-field {
+      min-width: 400px;
+    }
+  }
+  table {
+    height: 50vh;
+    display: inline-block;
+    overflow-y: scroll;
+  }
+}

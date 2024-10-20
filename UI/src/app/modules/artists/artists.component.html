@@ -1,0 +1,12 @@
+<ng-container *ngIf="artistsByStreamedTime.length">
+  <p>Total Artists: {{ artistsByStreamedTime.length }}</p>
+  <table>
+    <tr *ngFor="let artist of artistsByStreamedTime; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ artist.artist }}</td>
+      <td>{{ getTotalStreamingDuration(artist.ms_played) }} hours</td>
+      <td>{{ artist.streams }}</td>
+      <td>{{ msToSeconds(artist.avg_stream_duration) }} seconds</td>
+    </tr>
+  </table>
+</ng-container>

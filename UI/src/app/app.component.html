@@ -1,0 +1,161 @@
+<div id="main-container">
+  <mat-card id="header" appearance="raised">
+    <form>
+      <mat-form-field>
+        <mat-date-range-input
+          [rangePicker]="picker"
+          [min]="minDate"
+          [max]="maxDate"
+        >
+          <input
+            matStartDate
+            [formControl]="startDateControl"
+            placeholder="MM/DD/YYYY"
+            (focus)="picker.open()"
+          />
+          <input
+            matEndDate
+            [formControl]="endDateControl"
+            placeholder="MM/DD/YYYY"
+            (focus)="picker.open()"
+          />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker>
+          <mat-date-range-picker-actions>
+            <button
+              mat-raised-button
+              matDateRangePickerApply
+              (click)="updateFilters()"
+            >
+              Apply
+            </button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+      </mat-form-field>
+      <mat-form-field *ngIf="artistList.length" class="artist-form-field">
+        <mat-label>Artist</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+          placeholder="Search Artist..."
+        />
+        <button
+          *ngIf="myControl.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="myControl.setValue(''); updateFilters()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete
+          autoActiveFirstOption
+          #auto="matAutocomplete"
+          (optionSelected)="updateFilters()"
+        >
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+            >{{ option }}</mat-option
+          >
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="songList.length" class="song-form-field">
+        <mat-label>Song</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          [formControl]="songControl"
+          [matAutocomplete]="auto"
+          placeholder="Search Song..."
+        />
+        <button
+          *ngIf="songControl.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="songControl.setValue(''); updateFilters()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete
+          autoActiveFirstOption
+          #auto="matAutocomplete"
+          (optionSelected)="updateFilters()"
+        >
+          <mat-option
+            *ngFor="let option of filteredSongOptions | async"
+            [value]="option"
+            >{{ option }}</mat-option
+          >
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </mat-card>
+  <div id="content">
+    <div class="split-height">
+      <mat-card appearance="raised">
+        <app-streamed-time [filter]="filterObject"></app-streamed-time>
+      </mat-card>
+      <div class="split-width">
+        <mat-card appearance="raised">
+          <app-avg-streamed-time-per-day
+            [filter]="filterObject"
+          ></app-avg-streamed-time-per-day>
+        </mat-card>
+        <mat-card appearance="raised">
+          <app-skipped-streams [filter]="filterObject"></app-skipped-streams>
+        </mat-card>
+      </div>
+    </div>
+    <mat-card appearance="raised">
+      <app-streams-by-country [filter]="filterObject"></app-streams-by-country>
+    </mat-card>
+    <mat-card appearance="raised">
+      <app-pie-chart
+        title="Most streamed Artists"
+        unit="hours"
+        [data]="streamedTimeByArtistData"
+      ></app-pie-chart>
+    </mat-card>
+    <mat-card appearance="raised">
+      <app-pie-chart
+        title="Most streamed Songs"
+        unit="hours"
+        [data]="streamedTimeBySongData"
+      ></app-pie-chart>
+    </mat-card>
+    <mat-card appearance="raised" class="grid-width-2">
+      <app-timespan [filter]="filterObject"></app-timespan>
+    </mat-card>
+    <mat-card appearance="raised">
+      <app-avg-streamed-time-by-weekday
+        [filter]="filterObject"
+      ></app-avg-streamed-time-by-weekday>
+    </mat-card>
+    <mat-card appearance="raised">
+      <app-streamed-time-by-hour
+        [filter]="filterObject"
+      ></app-streamed-time-by-hour>
+    </mat-card>
+    <mat-card appearance="raised">
+      <app-pie-chart
+        title="Stream Start Reason"
+        unit="streams"
+        [data]="streamStartReasonData"
+      ></app-pie-chart>
+    </mat-card>
+  </div>
+</div>
+<!-- <router-outlet class="view"></router-outlet> -->

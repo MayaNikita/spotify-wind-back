@@ -1,0 +1,6 @@
+<div *ngIf="msPlayed; else loading">
+  <h1>{{ getTotalStreamingDuration(msPlayed) }} h</h1>
+  <h4>average per day</h4>
+</div>
+
+<ng-template #loading><mat-spinner></mat-spinner></ng-template>
